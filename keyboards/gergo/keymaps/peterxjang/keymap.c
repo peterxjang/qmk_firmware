@@ -22,6 +22,8 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSFT_T(KC_Z):
             return false;
+        case LCMD_T(KC_BSPC):
+            return false;
         default:
             return true;
     }
