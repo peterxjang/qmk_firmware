@@ -52,9 +52,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [BASE] = LAYOUT_gergo(
     KC_TAB,         KC_Q,         KC_W, KC_E, KC_R, KC_T,                                        KC_Y, KC_U, KC_I,    KC_O,   KC_P,              KC_BSLS,
-    LCTL_T(KC_ESC), LCTL_T(KC_A), KC_S, KC_D, KC_F, KC_G, KC_ESC,                        KC_SPC, KC_H, KC_J, KC_K,    KC_L,   LT(MOVE, KC_SCLN), KC_QUOT,
-    KC_LSFT,        LSFT_T(KC_Z), KC_X, KC_C, KC_V, KC_B, KC_BSPC, KC_VOLU,     KC_BRIU, KC_TAB, KC_N, KC_M, KC_COMM, KC_DOT, RSFT_T(KC_SLSH),   KC_ENT,
-                  LOPT_T(KC_ESC), LCMD_T(KC_BSPC), HYPR_T(KC_TAB), KC_VOLD,     KC_BRID, ROPT_T(KC_ENT),    LT(SYMB, KC_SPC), RCTL_T(KC_TAB)
+    LCTL_T(KC_ESC), LCTL_T(KC_A), KC_S, KC_D, KC_F, KC_G, KC_BRIU,                       KC_SPC, KC_H, KC_J, KC_K,    KC_L,   LT(MOVE, KC_SCLN), KC_QUOT,
+    KC_LSFT,        LSFT_T(KC_Z), KC_X, KC_C, KC_V, KC_B, KC_BRID, KC_VOLU,     KC_BRIU, KC_TAB, KC_N, KC_M, KC_COMM, KC_DOT, RSFT_T(KC_SLSH),   KC_ENT,
+                  LOPT_T(KC_ESC), LCMD_T(KC_BSPC), HYPR_T(KC_TAB), KC_VOLD,     KC_MPLY, ROPT_T(KC_ENT),    LT(SYMB, KC_SPC), RCTL_T(KC_TAB)
     ),
 /* Keymap 1: Symbols layer
  *
