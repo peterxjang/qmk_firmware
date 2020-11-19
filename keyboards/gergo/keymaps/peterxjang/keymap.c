@@ -1,22 +1,8 @@
-/* Good on you for modifying your layout! if you don't have
- * time to read the QMK docs, a list of keycodes can be found at
- *
- * https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes.md
- *
- * There's also a template for adding new layers at the bottom of this file!
- */
-
 #include QMK_KEYBOARD_H
 
 #define BASE 0 // default layer
 #define SYMB 1 // symbols
 #define MOVE 2 // motion
-
-// Blank template at the bottom
-
-enum customKeycodes {
-	URL  = 1
-};
 
 bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -29,41 +15,60 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case KC_Q:
+        if (record->event.pressed) {
+            if (keyboard_report->mods & MOD_BIT(KC_LCMD) || keyboard_report->mods & MOD_BIT(KC_RCMD)){
+                register_code(KC_TAB);
+                return false;
+            }
+        } else {
+            if (keyboard_report->mods & MOD_BIT(KC_LCMD) || keyboard_report->mods & MOD_BIT(KC_RCMD)){
+                unregister_code(KC_TAB);
+                return false;
+            }
+        }
+        break;
+    }
+    return true;
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
  * ,-------------------------------------------.                         ,-------------------------------------------.
- * |   Tab  |   Q  |   W  |   E  |   R  |   T  |                         |   Y  |   U  |   I  |   O  |   P  |   \ |  |
+ * |        |   Q  |   W  |   E  |   R  |   T  |                         |   Y  |   U  |   I  |   O  |   P  |        |
  * |--------+------+------+------+------+------|------.           .------|------+------+------+------+------+--------|
- * |Ctrl/Esc|Ctrl/A|   S  |   D  |   F  |   G  | Esc  |           | Spc  |   H  |   J  |   K  |   L  | ;/L2 |  ' "   |
+ * |        |Ctrl/A|   S  |   D  |   F  |   G  |      |           |      |   H  |   J  |   K  |   L  | ;/L2 |        |
  * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
- * |  Shift |Shft/Z|   X  |   C  |   V  |   B  | Bs   |           | Tab  |   N  |   M  | ,  < | . >  |Shft/?|  Enter |
+ * |        |Shft/Z|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  | ,  < | . >  |Shft/?|        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *                       .-------.   .------.                                 .------.   .-------.
- *                       |Opt/Esc|   |Cmd/Bs|                                 |L1/Spc|   |Ctr/Tab|
+ *                       |Opt/Tab|   |Cmd/Bs|                                 |L1/Spc|   |Ctr/Tab|
  *                       '-------'   '------'                                 `------.   '-------'
  *                                        ,-------.                      ,-------.
- *                                        | Vol+  |                      | Br+   |
+ *                                        |       |                      |       |
  *                                 ,------|-------|                      |-------|------.
- *                                 | HYPR | Vol-  |                      | Br-   | Opt  |
- *                                 | Tab  |       |                      |       | Enter|
+ *                                 | HYPR |       |                      |       | Opt  |
+ *                                 | Esc  |       |                      |       | Enter|
  *                                 |      |       |                      |       |      |
  *                                 `--------------'                      `--------------'
  */
 [BASE] = LAYOUT_gergo(
-    KC_TAB,         KC_Q,         KC_W, KC_E, KC_R, KC_T,                                        KC_Y, KC_U, KC_I,    KC_O,   KC_P,              KC_BSLS,
-    LCTL_T(KC_ESC), LCTL_T(KC_A), KC_S, KC_D, KC_F, KC_G, KC_BRIU,                       KC_SPC, KC_H, KC_J, KC_K,    KC_L,   LT(MOVE, KC_SCLN), KC_QUOT,
-    KC_LSFT,        LSFT_T(KC_Z), KC_X, KC_C, KC_V, KC_B, KC_BRID, KC_VOLU,     KC_BRIU, KC_TAB, KC_N, KC_M, KC_COMM, KC_DOT, RSFT_T(KC_SLSH),   KC_ENT,
-                  LOPT_T(KC_ESC), LCMD_T(KC_BSPC), HYPR_T(KC_TAB), KC_VOLD,     KC_MPLY, ROPT_T(KC_ENT),    LT(SYMB, KC_SPC), RCTL_T(KC_TAB)
+    KC_NO, KC_Q,         KC_W, KC_E, KC_R, KC_T,                                 KC_Y, KC_U, KC_I,    KC_O,   KC_P,              KC_NO,
+    KC_NO, LCTL_T(KC_A), KC_S, KC_D, KC_F, KC_G, KC_NO,                   KC_NO, KC_H, KC_J, KC_K,    KC_L,   LT(MOVE, KC_SCLN), KC_NO,
+    KC_NO, LSFT_T(KC_Z), KC_X, KC_C, KC_V, KC_B, KC_NO, KC_NO,     KC_NO, KC_NO, KC_N, KC_M, KC_COMM, KC_DOT, RSFT_T(KC_SLSH),   KC_NO,
+       LOPT_T(KC_TAB), LCMD_T(KC_BSPC), HYPR_T(KC_ESC), KC_NO,     KC_NO, ROPT_T(KC_ENT), LT(SYMB, KC_SPC), RCTL_T(KC_TAB)
     ),
 /* Keymap 1: Symbols layer
  *
  * ,-------------------------------------------.                         ,-------------------------------------------.
- * |   `~   |  1!  |  2@  |  3#  |  4$  |  5%  |                         |  6^  |  7&  |  8*  |  9(  |  0)  |        |
+ * |        |  1!  |  2@  |  3#  |  4$  |  5%  |                         |  6^  |  7&  |  8*  |  9(  |  0)  |        |
  * |--------+------+------+------+------+------|------.           .------|------+------+------+------+------+--------|
- * |        |Ctl/F1|  F2  |  F3  |  F4  |  F5  |  F6  |           |      |      |  - _ |  = + |  `~  |  ' " |        |
+ * |        |Ctl/F1|  F2  |  F3  |  F4  |  F5  |      |           |      |  F6  |  - _ |  = + |  `~  |  ' " |        |
  * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
- * |        |Shf/F7|  F8  |  F9  |  F10 |  F11 |  F12 |           |      |      |      |  [{  |  ]}  |Shf |\|        |
+ * |        |Shf/F7|  F8  |  F9  |  F10 |  F11 |      |           |      |  F12 |      |  [{  |  ]}  |Shf |\|        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *                        .------.   .------.                                 .------.   .-----.
  *                        |      |   |      |                                 |      |   |     |
@@ -77,19 +82,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------'                     `--------------'
  */
 [SYMB] = LAYOUT_gergo(
-    KC_GRV,  KC_1,          KC_2,  KC_3,  KC_4,   KC_5,                                               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,            KC_TRNS,
-    KC_TRNS, LCTL_T(KC_F1), KC_F2, KC_F3, KC_F4,  KC_F5,   KC_F6,                            KC_TRNS, KC_TRNS, KC_MINS, KC_EQL,  KC_GRV,  KC_QUOT,         KC_TRNS,
-    KC_TRNS, LSFT_T(KC_F7), KC_F8, KC_F9, KC_F10, KC_F11,  KC_F12,  KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LBRC, KC_RBRC, RSFT_T(KC_PIPE), KC_TRNS,
+    KC_TRNS, KC_1,          KC_2,  KC_3,  KC_4,   KC_5,                                               KC_6,   KC_7,    KC_8,    KC_9,    KC_0,            KC_TRNS,
+    KC_TRNS, LCTL_T(KC_F1), KC_F2, KC_F3, KC_F4,  KC_F5,   KC_TRNS,                          KC_TRNS, KC_F6,  KC_MINS, KC_EQL,  KC_GRV,  KC_QUOT,         KC_TRNS,
+    KC_TRNS, LSFT_T(KC_F7), KC_F8, KC_F9, KC_F10, KC_F11,  KC_TRNS, KC_TRNS,        KC_TRNS, KC_TRNS, KC_F12, KC_TRNS, KC_LBRC, KC_RBRC, RSFT_T(KC_PIPE), KC_TRNS,
                                          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 /* Keymap 2: Pad/Function layer
  *
  * ,-------------------------------------------.                         ,-------------------------------------------.
- * |        |      |      |  MU  |      |      |                         | HOME | PGDN | PGUP | END  |      | RESET  |
+ * |        |      |      |  MU  |      |      |                         | HOME | PGDN | PGUP | END  |RESET |        |
  * |--------+------+------+------+------+------|------.           .------|------+------+------+------+------+--------|
  * |        |Ctl/M1|  ML  |  MD  |  MR  |  M2  |      |           |      | LEFT | DOWN |  UP  | RGHT |      |        |
  * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
- * |        | Shf  |      |  M3  |      |      |      |           |      |      |      |      |      |      |        |
+ * |        | Shf  |      |  M3  |      |      |      |           |      | Br-  | Br+  | Vol- | Vol+ |      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *                        .------.   .------.                                 .------.   .-----.
  *                        |      |   |      |                                 |      |   |     |
@@ -103,9 +108,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------'       `--------------'
  */
 [MOVE] = LAYOUT_gergo(
-    KC_TRNS, KC_TRNS,         KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS,                                             KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_TRNS, RESET,
+    KC_TRNS, KC_TRNS,         KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS,                                             KC_HOME, KC_PGDN, KC_PGUP, KC_END,  RESET,   KC_TRNS,
     KC_TRNS, LCTL_T(KC_BTN1), KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN2, KC_TRNS,                           KC_TRNS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS, KC_TRNS,
-    KC_TRNS, LSFT_T(KC_TRNS), KC_TRNS, KC_BTN3, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, LSFT_T(KC_TRNS), KC_TRNS, KC_BTN3, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_BRID, KC_BRIU, KC_VOLD, KC_VOLU, KC_TRNS, KC_TRNS,
                                                 KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
 };
