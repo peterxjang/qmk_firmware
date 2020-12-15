@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 2: Pad/Function layer
  *
  * ,-------------------------------------------.                         ,-------------------------------------------.
- * |        |      |      |  MU  |      |      |                         | HOME | PGDN | PGUP | END  |RESET |        |
+ * |        |      |      |  MU  |      |      |                         | HOME | END  | PGDN | PGUP |RESET |        |
  * |--------+------+------+------+------+------|------.           .------|------+------+------+------+------+--------|
  * |        |  M1  |  ML  |  MD  |  MR  |  M2  |      |           |      | LEFT | DOWN |  UP  | RGHT |      |        |
  * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
@@ -108,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------'       `--------------'
  */
 [MOVE] = LAYOUT_gergo(
-    KC_TRNS, KC_TRNS,         KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS,                                             KC_HOME, KC_PGDN, KC_PGUP, KC_END,  RESET,   KC_TRNS,
+    KC_TRNS, KC_TRNS,         KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS,                                             KC_HOME, KC_END,  KC_PGDN, KC_PGUP, RESET,   KC_TRNS,
     KC_TRNS, KC_BTN1,         KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN2, KC_TRNS,                           KC_TRNS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS, KC_TRNS,
     KC_TRNS, LSFT_T(KC_TRNS), KC_TRNS, KC_BTN3, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_BRID, KC_BRIU, KC_VOLD, KC_VOLU, KC_TRNS, KC_TRNS,
                                                 KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
