@@ -4,17 +4,6 @@
 #define SYMB 1 // symbols
 #define MOVE 2 // motion
 
-bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LSFT_T(KC_Z):
-            return false;
-        case LCMD_T(KC_BSPC):
-            return false;
-        default:
-            return true;
-    }
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case KC_Q:
